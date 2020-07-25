@@ -1,4 +1,4 @@
-//Error module for different error types
+//Error module for different error types 
 const AppError = require('./../utils/appError');
 
 //url error from mongoose transforms into a friendly error
