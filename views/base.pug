@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    
+    //- We add block head in order to include map
+    block head
+      meta(charset='UTF-8')
+      meta(name='viewport' content='width=device-width, initial-scale=1.0')
+
+      //- <link rel='stylesheet' href='css/style.css'/> instead of writing in this way we write:
+      //- it will use the content of public folder as in app.js "app.use(express.static(path.join(__dirname, 'public')));"
+      link(rel='stylesheet' href='/css/style.css')
+      link(rel='shortcut icon' type='/image/png' href='/img/favicon.png')
+      link(rel='stylesheet' href= 'https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+
+      title Natours | #{title}
+      //- here appears the injection of block head (tour.pug)
+      
+  body
+    // HEADER
+    include _header
+
+    // CONTENT 
+    block content
+      h1= 'There is a placeholder heading here'
+      
+    // FOOTER
+    include _footer
+
+    //- Three sources below has been replaced by script(src='/js/bundle.js') as we uce parcel for bundling files in frontend
+    //-axios specified here(the link from axios.cdn)
+    //-script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js')
+    //- the path to mapbox.js is specified here
+    //-script(src='/js/mapbox.js')
+    //-script(src='/js/login.js')
+    script(src='https://js.stripe.com/v3/')
+    script(src='/js/bundle.js')
