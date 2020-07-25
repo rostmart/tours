@@ -8,7 +8,7 @@ const helmet = require('helmet'); // for setting security http headers
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
-
+const compression = require('compression');// for compressing text files sendig to the clients (JSON files for example)
 const cookieParser = require('cookie-parser');//for reading cookies from the browser
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -17,7 +17,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
-console.log(process.env.NODE_ENV);
+//console.log(process.env.NODE_ENV);
 
 const app = express();
 
@@ -34,9 +34,9 @@ app.use(express.static(path.join(__dirname, 'public'))); //example of how to acc
 app.use(helmet());
 
 //console.log(process.env.NODE_ENV);logs all environment veriables
-console.log(process.env.NODE_ENV);
+//console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
-  console.log(process.env.NODE_ENV);
+  //console.log(process.env.NODE_ENV);
   app.use(morgan('dev'));//we use it to see in cmd the time and the name of the function executed
 }
 
@@ -72,10 +72,12 @@ app.use(hpp({
   ]
 }));
 
+app.use(compression())
+
 //Test middleware 1
 app.use((req, res, next) => { //app.use we use in order to create a middleware function
                              // next - the name of our function
-  console.log('Hello from the middleware');
+  //console.log('Hello from the middleware');
   //console.log(req.cookies);
   next();//next() we use in order to continue a cycle of middleware functions. Without
          // it middleware would end and no respond would send to a user
@@ -84,7 +86,7 @@ app.use((req, res, next) => { //app.use we use in order to create a middleware f
 //Test middleware 2
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();//in order to get time for specific execution of function
-  console.log(`Hello from the middleware second time ${req.requestTime}`);
+  //console.log(`Hello from the middleware second time ${req.requestTime}`);
   //console.log(req.headers); //logs all headers from a user
   next();
 });

@@ -172,11 +172,11 @@ tourSchema.pre('save', function(next) {// pre means that it runs only before sav
 // });
 
 tourSchema.pre('save', function(next) {//an example of additional pre middleware
-  console.log('Will save document');
+  //console.log('Will save document');
   next();
 });
 tourSchema.post('save', function(doc, next) {//post means that it runs after save() and .create() events
-  console.log(doc);//in post instead of this we have the whole doc, saved in DB
+  //console.log(doc);//in post instead of this we have the whole doc, saved in DB
   next();
 });
 
@@ -208,7 +208,7 @@ tourSchema.pre(/^find/, function(next) {
 tourSchema.post(/^find/, function(docs, next) {///^find/-includes all methods start with find
                                                //(find() and findByID()); in post we have access to
                                                //all documents returned from query
-  console.log(`Query took ${Date.now() - this.start} milliseconds`);
+  //console.log(`Query took ${Date.now() - this.start} milliseconds`);
   //console.log(docs);
   next();
 });

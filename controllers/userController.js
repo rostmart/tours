@@ -158,7 +158,7 @@ exports.deleteUser = factory.deleteOne(User);
 exports.getUser = factory.getOne(User);
 
 exports.createUser = (req, res) => {
-  console.log(`createUser requested at ${req.requestTime}`);// to get exact time of getAllTours execution
+  //console.log(`createUser requested at ${req.requestTime}`);// to get exact time of getAllTours execution
   res.status(500).json({
     status: 'err',
     message: 'USE SIGN UP!!!'

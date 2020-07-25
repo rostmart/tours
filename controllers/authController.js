@@ -58,7 +58,7 @@ exports.signup = catchAsync(async (req, res, next) => { //req holds all info abo
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
+  //console.log(url);
   await new Email(newUser, url).sendWelcome();
     ///*My CODING (emailconfirmation)/////////////////
     // const resetToken = newUser.createPasswordResetToken();
@@ -153,14 +153,14 @@ exports.protect = catchAsync(async (req, res, next) => {
                                 // we check cookies in the browser
     token = req.cookies.jwt;
   }
-  console.log(token);
+  //console.log(token);
   if (!token) {
     return next(new AppError('Access is DENIED for unauthorized users!!!', 401));
   }
 
   // 2) Token verification
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-  console.log(decoded); //logs decoded object(with user id)
+  //console.log(decoded); //logs decoded object(with user id)
 
   // 3) Check if user still exists (when user has been deleted but the token remains)
   const currentUser = await User.findById(decoded.id);

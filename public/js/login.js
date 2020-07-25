@@ -9,7 +9,8 @@ export const login = async (email, password) => {
     const res = await axios({
       method: 'POST',
       // url from postman
-      url: 'http://127.0.0.1:8000/api/v1/users/login',
+      //url: 'http://127.0.0.1:8000/api/v1/users/login', // has been replaced when deployed to herroky
+      url: '/api/v1/users/login', // this format is acceptable for herroky as API and website are hosted on the same place
       // data which sends with the body (http request)
       data: {
         email,
@@ -35,7 +36,8 @@ export const logout = async () => {
     const res = await axios({
       method: 'GET',
       // url from postman
-      url: 'http://127.0.0.1:8000/api/v1/users/logout',
+      //url: 'http://127.0.0.1:8000/api/v1/users/logout',// has been replaced when deployed to herroky
+      url: '/api/v1/users/login', // this format is acceptable for herroky as API and website are hosted on the same place
     });
 
     if (res.data.status = 'success') location.reload(true); // reload page initiation

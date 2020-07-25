@@ -9,9 +9,10 @@ export const updateSettings = async (data, type) => { // type is either 'passwor
   try { // we can use try/catch with axios
     // we can use axios here as we specified its url in base.js (axios was installed after that)
     const url = type === 'data'
-    ? 'http://127.0.0.1:8000/api/v1/users/updateMe'
-    : 'http://127.0.0.1:8000/api/v1/users/updatePassword';
-
+    //? 'http://127.0.0.1:8000/api/v1/users/updateMe'// has been replaced when deployed to herroky
+    ? 'http://127.0.0.1:8000/api/v1/users/updateMe'// this format is acceptable for herroky as API and website are hosted on the same place
+    //: 'http://127.0.0.1:8000/api/v1/users/updatePassword';// has been replaced when deployed to herroky
+    : 'http://127.0.0.1:8000/api/v1/users/updatePassword';// this format is acceptable for herroky as API and website are hosted on the same place
     const res = await axios({
       method: 'PATCH',
       // url from postman (turnary operator either for 'data' or 'password' change depending on a 'type' string)
