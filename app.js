@@ -21,6 +21,8 @@ const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
+app.set('trust', 'proxy'); //sets proxy for heroku
+
 //Setting up pug engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views')); // creates a path joining directory name /views

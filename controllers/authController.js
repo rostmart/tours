@@ -15,23 +15,25 @@ const signToken = id => { //returns new token for the user with given id
 }
 
 //FUNCTION WHICH SENDS RESPONSE TO THE USER
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
-  const cookieOptions = {
+  //if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // we need to use https only in production,
+                                                                          // as "secure: true" option will allow to sent
+                                                                          // cookie only via https
+  //if  (req.secure || req.headers['x-forwarded-proto'] === 'https') cookieOptions.secure = true;
+
+  res.cookie('jwt', token, {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000), //converting
                                                                      // JWT_COOKIE_EXPIRES_IN into milliseconds
                                                                      // in config.env "JWT_COOKIE_EXPIRES_IN=90"
                                                                      // without "d" at the end because we need to
                                                                      // convert it to milliseconds
-    httpOnly: true // cookie will not be modified by the browser
-  };
+    httpOnly: true, // cookie will not be modified by the browser
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+  });
 
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // we need to use https only in production,
-                                                                          // as "secure: true" option will allow to sent
-                                                                          // cookie only via https
   res.password = undefined; // removes password from showing up in postman
-  res.cookie('jwt', token, cookieOptions);
 
   res.status(statusCode).json({
     status: 'success',
@@ -100,7 +102,7 @@ exports.signup = catchAsync(async (req, res, next) => { //req holds all info abo
   //                                                                       //specified (from config.env)
   // });
 
-  createSendToken(newUser._id, 201, res);
+  createSendToken(newUser._id, 201, req, res);
 });
 
 //LOGING IN
@@ -129,7 +131,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   ///*My CODING (emailconfirmation)/////////////////
   // 3) If everything is ok, sent token to the client
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 //Log out function
@@ -300,7 +302,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   // 4) Log the user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 ///*My CODING (emailconfirmation)/////////////////
@@ -323,7 +325,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 //   await user.save({ validateBeforeSave: false });
 //
 //   // 4) Log the user in, send JWT
-//   createSendToken(user, 200, res);
+//   createSendToken(user, 200, req, res);
 // });
 ///*My CODING (emailconfirmation)/////////////////
 
@@ -344,5 +346,5 @@ exports.updatePassword = catchAsync(async(req, res, next) => {
 
   // 4) Log user in, send JWT
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
