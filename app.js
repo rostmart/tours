@@ -17,6 +17,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const cors = require('cors');
 //console.log(process.env.NODE_ENV);
 
 const app = express();
@@ -28,6 +29,15 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views')); // creates a path joining directory name /views
 
 //*GLOBAL MIDDLEWARES
+//CORS implementation (Access-Control-Allow-Origin *)
+app.use(cors());// for simple requests (get, post)
+//In case our app is on api.origin.com and front end on natours.com, we should:
+//app.use(cors({ origin: 'https://www.natours.com'}));
+
+app.options('*', cors()); // non-simple requests(put,patch, delete, or requests that send headers
+                          // or use nonstandard headers); '*' - means all routes
+
+
 //Serving static files
 app.use(express.static(path.join(__dirname, 'public'))); //example of how to access files in public folder
                                                          //in browser it is necessary to write: 127.0.0.1:3000/filename
